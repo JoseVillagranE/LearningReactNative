@@ -11,14 +11,15 @@ import {
 } from 'react-native';
 
 const App = () => {
-  const [Items, setItems] = useState([{title: 'Title 1', data: 'Item 1-1'}]);
-  const [counter, setCounter] = useState(2);
-  const DATA = [
+  let n = 3;
+
+  const [Items, setItems] = useState([
     {
       title: 'Title 1',
-      data: 'Item 1-1',
+      data: Array.from({length: n}, (_, i) => 'Item ' + 1 + '-' + i),
     },
-  ];
+  ]);
+  const [counter, setCounter] = useState(2);
   const [Refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
     setRefreshing(true);
@@ -27,50 +28,50 @@ const App = () => {
       ...Items,
       {
         title: 'Title ' + counter,
-        data: 'Item ' + counter + '-1',
+        data: Array.from({length: n}, (_, i) => 'Item ' + counter + '-' + i),
       },
     ]);
     setRefreshing(false);
   };
 
   return (
-    <FlatList
-      keyExtractor={(item, index) => index.toString()}
-      data={Items}
-      renderItem={({item}) => (
-        <View style={styles.body}>
-          <View style={styles.item}>
-            <Text style={styles.text}>{item.title}</Text>
-          </View>
-          <View style={styles.data}>
-            <Text style={styles.text}>{item.data}</Text>
-          </View>
-        </View>
-      )}
-      refreshControl={
-        <RefreshControl
-          refreshing={Refreshing}
-          onRefresh={onRefresh}
-        />
-      }
-    />
-    // <SectionList
+    // <FlatList
     //   keyExtractor={(item, index) => index.toString()}
-    //   sections={Items}
+    //   data={Items}
     //   renderItem={({item}) => (
-    //     <View style={styles.data}>
-    //       <Text style={styles.text}>{item.data}</Text>
-    //     </View>
-    //   )}
-    //   renderSectionHeader={({section}) => (
-    //     <View style={styles.item}>
-    //       <Text style={styles.text}>{section.title}</Text>
+    //     <View style={styles.body}>
+    //       <View style={styles.item}>
+    //         <Text style={styles.text}>{item.title}</Text>
+    //       </View>
+    //       <View style={styles.data}>
+    //         <Text style={styles.text}>{item.data}</Text>
+    //       </View>
     //     </View>
     //   )}
     //   refreshControl={
-    //     <RefreshControl refreshing={Refreshing} onRefresh={onRefresh} />
+    //     <RefreshControl
+    //       refreshing={Refreshing}
+    //       onRefresh={onRefresh}
+    //     />
     //   }
     // />
+    <SectionList
+      keyExtractor={(item, index) => index.toString()}
+      sections={Items}
+      renderItem={({item}) => (
+        <View style={styles.data}>
+          <Text style={styles.text}>{item}</Text>
+        </View>
+      )}
+      renderSectionHeader={({section}) => (
+        <View style={styles.item}>
+          <Text style={styles.text}>{section.title}</Text>
+        </View>
+      )}
+      refreshControl={
+        <RefreshControl refreshing={Refreshing} onRefresh={onRefresh} />
+      }
+    />
   );
 };
 
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     backgroundColor: '#0000ff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
   text: {
@@ -88,15 +89,21 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   item: {
+    flex: 1,
     backgroundColor: '#4ae1fa',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: '#000000',
+    borderWidth: 2,
   },
   data: {
+    flex: 1,
     backgroundColor: '#ffffff',
     borderColor: '#000000',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: '#000000',
+    borderWidth: 1,
   },
 });
 
