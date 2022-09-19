@@ -1,0 +1,6 @@
+{
+    "svn.ignoreMissingSvnWarning": true,
+    "marquee.widgets.npm-stats.packageNames": [
+        "AwesomeProject"
+    ]
+}
